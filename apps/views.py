@@ -3,13 +3,18 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
 from django.shortcuts import render, redirect
 
-from apps.models import User
+from apps.models import User, Product
 
 
-@login_required
 def online_shop_viwe(request):
-    return render(request, 'online-shop.html')
+    products = Product.objects.all()
+    return render(request, 'online-shop.html', {'products': products})
 
+
+
+def shop(request):
+    products = Product.objects.all()
+    return render(request, 'online-shop.html', {'products': products})
 
 
 def login_template_viwe (request):
@@ -40,16 +45,12 @@ def register_template_viwe(request):
     else:
         return render(request, 'register.html')
 
-
-def add_to_cart(request, id):
+def add_to_cart(request, pk):
     cart = request.session.get('cart', [])
-
-    if id not in cart:
-        cart.append(id)
-
+    if pk not in cart:
+        cart.append(pk)
     request.session['cart'] = cart
     return redirect('online_shop')
-
 
 
 def logout_view(request):

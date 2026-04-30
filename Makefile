@@ -12,3 +12,6 @@ mig:
 
 dj:
 	 python manage.py runserver
+
+admin:
+	python manage.py createsuperuser
